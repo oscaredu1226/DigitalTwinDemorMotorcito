@@ -1,0 +1,56 @@
+<section class="sensors-panel">
+  <div class="section-header">
+    <p>Lecturas del motor</p>
+    <h2>Sensores simulados</h2>
+  </div>
+
+  <div class="metrics-grid">
+    <app-motor-metric-card
+      title="Temperatura"
+      [value]="sensors.tempC"
+      unit="°C"
+      description="Detecta sobrecalentamiento del motor."
+      [status]="getTemperatureStatus()"
+    />
+
+    <app-motor-metric-card
+      title="Vibración"
+      [value]="sensors.vibG"
+      unit="g"
+      description="Ayuda a identificar desalineación o desgaste."
+      [status]="getVibrationStatus()"
+    />
+
+    <app-motor-metric-card
+      title="Corriente"
+      [value]="sensors.currentA"
+      unit="A"
+      description="Permite detectar sobrecarga eléctrica."
+      [status]="getCurrentStatus()"
+    />
+
+    <app-motor-metric-card
+      title="Velocidad"
+      [value]="sensors.speedRpm"
+      unit="RPM"
+      description="Mide la eficiencia de rotación del motor."
+      [status]="getRpmStatus()"
+    />
+
+    <app-motor-metric-card
+      title="Horas de operación"
+      [value]="sensors.operationHours"
+      unit="h"
+      description="Sirve para mantenimiento preventivo."
+      [status]="getOperationHoursStatus()"
+    />
+
+    <app-motor-metric-card
+      title="Voltaje de entrada"
+      [value]="sensors.inputVoltageV"
+      unit="V"
+      description="Permite detectar fallas eléctricas externas."
+      [status]="getVoltageStatus()"
+    />
+  </div>
+</section>

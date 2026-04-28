@@ -1,0 +1,50 @@
+<main class="digital-twin-page">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Digital Twin Demo</p>
+      <h1>Motor industrial</h1>
+    </div>
+
+    <button type="button" (click)="refreshData()">
+      Actualizar datos
+    </button>
+  </section>
+
+  <section *ngIf="isLoading" class="state-card">
+    Cargando datos del motor...
+  </section>
+
+  <section *ngIf="errorMessage" class="error-card">
+    {{ errorMessage }}
+  </section>
+
+  <section *ngIf="motor as currentMotor" class="data-source-card">
+    <span>Fuente de datos:</span>
+
+    <strong [class.mock]="currentMotor.source === 'mock'">
+      {{ currentMotor.source === 'mock' ? 'Mock local' : 'API real' }}
+    </strong>
+  </section>
+
+  <section *ngIf="motor as currentMotor" class="dashboard">
+    <div class="main-column">
+      <app-motor-digital-twin
+        [motor]="currentMotor"
+      />
+
+      <app-motor-sensors-panel
+        [sensors]="currentMotor.sensors"
+      />
+    </div>
+
+    <aside class="side-column">
+      <app-motor-health-card
+        [healthScore]="currentMotor.twinState.healthScore"
+      />
+
+      <app-motor-alert-card
+        [twinState]="currentMotor.twinState"
+      />
+    </aside>
+  </section>
+</main>

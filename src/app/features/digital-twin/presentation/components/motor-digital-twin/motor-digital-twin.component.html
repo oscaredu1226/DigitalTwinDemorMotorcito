@@ -1,0 +1,84 @@
+<article class="digital-twin-card" [ngClass]="statusClass">
+  <div class="section-header">
+    <p>Representación virtual</p>
+    <h2>Digital Twin del motor</h2>
+  </div>
+
+  <div class="motor-scene">
+    <div class="scene-overlay"></div>
+
+    <div class="gear gear-left" [ngClass]="rotationClass">
+      <div class="gear-inner"></div>
+    </div>
+
+    <div class="gear gear-right reverse" [ngClass]="rotationClass">
+      <div class="gear-inner"></div>
+    </div>
+
+    <div class="motor-assembly">
+      <div class="motor-top-box"></div>
+
+      <div class="motor-body">
+        <div class="front-cap">
+          <div class="cap-ring"></div>
+          <div class="cap-center"></div>
+        </div>
+
+        <div class="body-core">
+          <div class="cooling-fin fin-1"></div>
+          <div class="cooling-fin fin-2"></div>
+          <div class="cooling-fin fin-3"></div>
+          <div class="cooling-fin fin-4"></div>
+          <div class="cooling-fin fin-5"></div>
+          <div class="cooling-fin fin-6"></div>
+        </div>
+
+        <div class="rear-cap">
+          <div class="fan-grill">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <div class="shaft"></div>
+      </div>
+
+      <div class="motor-feet">
+        <span class="foot left"></span>
+        <span class="foot right"></span>
+      </div>
+
+      <div class="motor-base"></div>
+
+      <div class="bolts">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-strip" [ngClass]="statusClass">
+    <span class="dot"></span>
+    <span>{{ statusLabel }}</span>
+  </div>
+
+  <div class="motor-info">
+    <div>
+      <span>ID del equipo</span>
+      <strong>{{ motor.deviceId }}</strong>
+    </div>
+
+    <div>
+      <span>Estado actual</span>
+      <strong>{{ statusLabel }}</strong>
+    </div>
+
+    <div>
+      <span>Última lectura</span>
+      <strong>{{ motor.timestamp | date:'short' }}</strong>
+    </div>
+  </div>
+</article>

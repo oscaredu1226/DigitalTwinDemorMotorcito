@@ -1,0 +1,15 @@
+<article class="metric-card" [ngClass]="status">
+  <div class="metric-header">
+    <h3>{{ title }}</h3>
+    <span class="status-dot"></span>
+  </div>
+
+  <p class="metric-value">
+    {{ value }}
+    <span>{{ unit }}</span>
+  </p>
+
+  <p class="metric-description" *ngIf="description">
+    {{ description }}
+  </p>
+</article>

@@ -1,0 +1,21 @@
+<article class="health-card" [ngClass]="healthStatusClass">
+  <div>
+    <p class="eyebrow">Health Score</p>
+    <h2>Salud del motor</h2>
+  </div>
+
+  <div class="score">
+    {{ normalizedHealthScore }}<span>%</span>
+  </div>
+
+  <div class="progress-track">
+    <div
+      class="progress-fill"
+      [style.width.%]="normalizedHealthScore"
+    ></div>
+  </div>
+
+  <p class="health-label">
+    {{ healthLabel }}
+  </p>
+</article>

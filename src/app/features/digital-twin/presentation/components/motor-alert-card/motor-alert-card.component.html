@@ -1,0 +1,16 @@
+<article class="alert-card" [ngClass]="statusClass">
+  <div class="alert-header">
+    <div>
+      <p class="eyebrow">Estado del gemelo digital</p>
+      <h2>{{ title }}</h2>
+    </div>
+
+    <span class="status-badge">
+      {{ statusLabel }}
+    </span>
+  </div>
+
+  <p class="message">
+    {{ twinState.message }}
+  </p>
+</article>
