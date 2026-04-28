@@ -3,6 +3,7 @@ export interface MotorResponseDto {
   timestamp: string;
   sensors: MotorSensorsResponseDto;
   twin_state: MotorTwinStateResponseDto;
+  id?: string;
 }
 
 export interface MotorSensorsResponseDto {
@@ -10,8 +11,8 @@ export interface MotorSensorsResponseDto {
   vib_g: number;
   current_a: number;
   speed_rpm: number;
-  operation_hours: number;
-  input_voltage_v: number;
+  operation_hours?: number;
+  input_voltage_v?: number;
 }
 
 export interface MotorTwinStateResponseDto {

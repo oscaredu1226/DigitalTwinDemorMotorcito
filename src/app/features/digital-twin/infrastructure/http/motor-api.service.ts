@@ -14,8 +14,8 @@ export class MotorApiService {
 
   constructor(private readonly http: HttpClient) {}
 
-  getCurrentMotorData(): Observable<MotorResponseDto> {
-    return this.http.get<MotorResponseDto>(this.endpoint);
+  getCurrentMotorData(): Observable<MotorResponseDto[]> {
+    return this.http.get<MotorResponseDto[]>(this.endpoint);
   }
 
   getMockMotorData(): Observable<MotorResponseDto> {

@@ -1,3 +1,3 @@
 export const API_CONFIG = {
-  baseUrl: 'https://motorcito.free.beeceptor.com/api/sensor',
+  baseUrl: 'https://asdasdasd.free.beeceptor.com/123123',
 };

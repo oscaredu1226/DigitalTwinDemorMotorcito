@@ -16,7 +16,15 @@ export class MotorApiRepository extends MotorRepository {
 
   override getCurrentMotorData(): Observable<Motor> {
     return this.motorApiService.getCurrentMotorData().pipe(
-      map((response) => MotorMapper.fromDto(response, 'api')),
+      map((response) => {
+        const latestMotor = response[response.length - 1];
+
+        if (!latestMotor) {
+          throw new Error('La API no devolvió datos del motor.');
+        }
+
+        return MotorMapper.fromDto(latestMotor, 'api');
+      }),
       catchError(() =>
         this.motorApiService
           .getMockMotorData()

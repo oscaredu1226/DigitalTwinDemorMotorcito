@@ -8,12 +8,12 @@ export class MotorMapper {
       timestamp: dto.timestamp,
       source,
       sensors: {
-        tempC: dto.sensors.temp_c,
-        vibG: dto.sensors.vib_g,
-        currentA: dto.sensors.current_a,
-        speedRpm: dto.sensors.speed_rpm,
-        operationHours: dto.sensors.operation_hours,
-        inputVoltageV: dto.sensors.input_voltage_v,
+        tempC: Number(dto.sensors.temp_c.toFixed(2)),
+        vibG: Number(dto.sensors.vib_g.toFixed(2)),
+        currentA: Number(dto.sensors.current_a.toFixed(2)),
+        speedRpm: Math.round(dto.sensors.speed_rpm),
+        operationHours: dto.sensors.operation_hours ?? 1240,
+        inputVoltageV: dto.sensors.input_voltage_v ?? 220,
       },
       twinState: {
         status: dto.twin_state.status,

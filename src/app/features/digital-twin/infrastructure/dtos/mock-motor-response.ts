@@ -1,11 +1,18 @@
-import { MotorResponseDto } from './motor-response.dto';
+import { MotorResponseDto, MotorSensorsResponseDto } from './motor-response.dto';
+
+type CompleteMotorSensorsResponseDto = MotorSensorsResponseDto & {
+  operation_hours: number;
+  input_voltage_v: number;
+};
 
 function getRandomNumber(min: number, max: number, decimals = 1): number {
   const value = Math.random() * (max - min) + min;
   return Number(value.toFixed(decimals));
 }
 
-function getMotorStatus(sensors: MotorResponseDto['sensors']): 'Normal' | 'Warning' | 'Critical' {
+function getMotorStatus(
+  sensors: CompleteMotorSensorsResponseDto,
+): 'Normal' | 'Warning' | 'Critical' {
   if (
     sensors.temp_c > 85 ||
     sensors.vib_g > 1.0 ||
@@ -33,7 +40,7 @@ function getMotorStatus(sensors: MotorResponseDto['sensors']): 'Normal' | 'Warni
   return 'Normal';
 }
 
-function getHealthScore(sensors: MotorResponseDto['sensors']): number {
+function getHealthScore(sensors: CompleteMotorSensorsResponseDto): number {
   let healthScore = 100;
 
   if (sensors.temp_c > 70) healthScore -= 15;
@@ -48,8 +55,13 @@ function getHealthScore(sensors: MotorResponseDto['sensors']): number {
   if (sensors.speed_rpm < 1700) healthScore -= 10;
   if (sensors.speed_rpm < 1600) healthScore -= 15;
 
-  if (sensors.input_voltage_v < 210 || sensors.input_voltage_v > 230) healthScore -= 10;
-  if (sensors.input_voltage_v < 200 || sensors.input_voltage_v > 240) healthScore -= 15;
+  if (sensors.input_voltage_v < 210 || sensors.input_voltage_v > 230) {
+    healthScore -= 10;
+  }
+
+  if (sensors.input_voltage_v < 200 || sensors.input_voltage_v > 240) {
+    healthScore -= 15;
+  }
 
   if (sensors.operation_hours >= 1500) healthScore -= 10;
   if (sensors.operation_hours > 1800) healthScore -= 15;
@@ -58,7 +70,7 @@ function getHealthScore(sensors: MotorResponseDto['sensors']): number {
 }
 
 function getMessage(
-  sensors: MotorResponseDto['sensors'],
+  sensors: CompleteMotorSensorsResponseDto,
   status: 'Normal' | 'Warning' | 'Critical',
 ): string {
   if (status === 'Normal') {
@@ -117,7 +129,7 @@ function getMessage(
 }
 
 export function generateMockMotorResponse(): MotorResponseDto {
-  const sensors: MotorResponseDto['sensors'] = {
+  const sensors: CompleteMotorSensorsResponseDto = {
     temp_c: getRandomNumber(45, 95),
     vib_g: getRandomNumber(0.2, 1.3, 2),
     current_a: getRandomNumber(9, 22),
