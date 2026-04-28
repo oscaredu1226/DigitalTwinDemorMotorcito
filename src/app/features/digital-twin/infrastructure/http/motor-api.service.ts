@@ -10,7 +10,7 @@ import { generateMockMotorResponse } from '../dtos/mock-motor-response';
   providedIn: 'root',
 })
 export class MotorApiService {
-  private readonly endpoint = `${API_CONFIG.baseUrl}/motor/current`;
+  private readonly endpoint = `${API_CONFIG.baseUrl}`;
 
   constructor(private readonly http: HttpClient) {}
 
