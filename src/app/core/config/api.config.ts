@@ -1,3 +1,3 @@
 export const API_CONFIG = {
-  baseUrl: 'https://asdasdasd.free.beeceptor.com/123123',
+  baseUrl: 'https://motor123.free.beeceptor.com/data',
 };

@@ -1,7 +1,7 @@
 <section class="sensors-panel">
   <div class="section-header">
     <p>Lecturas del motor</p>
-    <h2>Sensores simulados</h2>
+    <h2>Sensores simulados desde Wokwi</h2>
   </div>
 
   <div class="metrics-grid">
@@ -9,7 +9,7 @@
       title="Temperatura"
       [value]="sensors.tempC"
       unit="°C"
-      description="Detecta sobrecalentamiento del motor."
+      description="Rango simulado: 0 a 120 °C. Warning si supera 80 °C."
       [status]="getTemperatureStatus()"
     />
 
@@ -17,7 +17,7 @@
       title="Vibración"
       [value]="sensors.vibG"
       unit="g"
-      description="Ayuda a identificar desalineación o desgaste."
+      description="Rango simulado: 0 a 5 g. Warning si supera 3.0 g."
       [status]="getVibrationStatus()"
     />
 
@@ -25,7 +25,7 @@
       title="Corriente"
       [value]="sensors.currentA"
       unit="A"
-      description="Permite detectar sobrecarga eléctrica."
+      description="Rango simulado: 0 a 30 A. Se muestra como dato de monitoreo."
       [status]="getCurrentStatus()"
     />
 
@@ -33,24 +33,8 @@
       title="Velocidad"
       [value]="sensors.speedRpm"
       unit="RPM"
-      description="Mide la eficiencia de rotación del motor."
+      description="Rango simulado: 0 a 3600 RPM. Se muestra como dato de monitoreo."
       [status]="getRpmStatus()"
-    />
-
-    <app-motor-metric-card
-      title="Horas de operación"
-      [value]="sensors.operationHours"
-      unit="h"
-      description="Sirve para mantenimiento preventivo."
-      [status]="getOperationHoursStatus()"
-    />
-
-    <app-motor-metric-card
-      title="Voltaje de entrada"
-      [value]="sensors.inputVoltageV"
-      unit="V"
-      description="Permite detectar fallas eléctricas externas."
-      [status]="getVoltageStatus()"
     />
   </div>
 </section>

@@ -16,7 +16,7 @@ export interface MotorSensorsResponseDto {
 }
 
 export interface MotorTwinStateResponseDto {
-  status: 'Normal' | 'Warning' | 'Critical';
+  status: 'OK' | 'Normal' | 'Warning' | 'Critical';
   health_score: number;
   message: string;
 }

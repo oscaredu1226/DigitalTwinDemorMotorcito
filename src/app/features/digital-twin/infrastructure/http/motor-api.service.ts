@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
-import { API_CONFIG } from '../../../../core/config/api.config';
 import { MotorResponseDto } from '../dtos/motor-response.dto';
 import { generateMockMotorResponse } from '../dtos/mock-motor-response';
 
@@ -10,7 +9,7 @@ import { generateMockMotorResponse } from '../dtos/mock-motor-response';
   providedIn: 'root',
 })
 export class MotorApiService {
-  private readonly endpoint = `${API_CONFIG.baseUrl}`;
+  private readonly endpoint = 'https://hayfabito.free.beeceptor.com/prueba';
 
   constructor(private readonly http: HttpClient) {}
 
