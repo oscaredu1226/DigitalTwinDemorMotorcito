@@ -7,7 +7,7 @@
 }
 
 .hero {
-  max-width: 1180px;
+  max-width: 1450px;
   margin: 0 auto 24px;
   padding: 28px;
   background: #ffffff;
@@ -57,7 +57,7 @@ button:hover {
 
 .state-card,
 .error-card {
-  max-width: 1180px;
+  max-width: 1450px;
   margin: 0 auto 20px;
   padding: 18px 22px;
   border-radius: 16px;
@@ -71,10 +71,10 @@ button:hover {
 }
 
 .dashboard {
-  max-width: 1180px;
+  max-width: 1450px;
   margin: auto;
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(320px, 0.9fr);
+  grid-template-columns: minmax(0, 3fr) minmax(300px, 0.8fr);
   gap: 24px;
   align-items: start;
 }
@@ -86,7 +86,7 @@ button:hover {
 }
 
 .data-source-card {
-  max-width: 1180px;
+  max-width: 1450px;
   margin: 0 auto 20px;
   padding: 14px 18px;
   background: #ffffff;
