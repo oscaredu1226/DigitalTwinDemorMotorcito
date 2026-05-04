@@ -11,10 +11,12 @@ import {
 
 import * as THREE from 'three';
 import { MotorStatus } from '../../../domain/models/motor-status.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-motor-3d-viewer',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './motor-3d-viewer.component.html',
   styleUrl: './motor-3d-viewer.component.css',
 })

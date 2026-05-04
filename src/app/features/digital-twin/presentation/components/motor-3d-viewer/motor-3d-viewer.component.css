@@ -1,3 +1,8 @@
+.viewer-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .viewer-container {
   width: 100%;
   height: 330px;
@@ -6,4 +11,66 @@
   background:
     radial-gradient(circle at top, #ffffff, transparent 30%),
     linear-gradient(180deg, #eef4fb 0%, #dbe4f0 100%);
+}
+
+.floating-metrics {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 5;
+}
+
+.metric-pill {
+  min-width: 118px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.metric-pill span {
+  display: block;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.metric-pill strong {
+  display: block;
+  color: #111827;
+  font-size: 15px;
+}
+
+.metric-pill.warning {
+  background: rgba(254, 243, 199, 0.9);
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.metric-pill.warning strong {
+  color: #92400e;
+}
+
+@media (max-width: 620px) {
+  .viewer-container {
+    height: 270px;
+  }
+
+  .floating-metrics {
+    left: 12px;
+    top: 12px;
+    gap: 8px;
+  }
+
+  .metric-pill {
+    min-width: auto;
+    padding: 8px 10px;
+  }
 }
