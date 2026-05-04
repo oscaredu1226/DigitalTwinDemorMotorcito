@@ -24,6 +24,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
 
   @Input({ required: true }) status!: MotorStatus;
   @Input() rpm = 0;
+  @Input() vibration = 0;
 
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -35,6 +36,9 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
 
   private motorMaterials: THREE.MeshStandardMaterial[] = [];
   private animationFrameId = 0;
+
+  private readonly initialMotorPosition = new THREE.Vector3(0, 0, 0);
+  private elapsedTime = 0;
 
   ngAfterViewInit(): void {
     this.initScene();
@@ -245,12 +249,16 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   private animate = (): void => {
     this.animationFrameId = requestAnimationFrame(this.animate);
 
+    this.elapsedTime += 0.016;
+
     this.motorGroup.rotation.y += 0.002;
 
     const rpmFactor = this.getRpmRotationFactor();
 
     this.fanGroup.rotation.x += rpmFactor;
     this.shaftGroup.rotation.x += rpmFactor;
+
+    this.applyVibrationEffect();
 
     this.renderer.render(this.scene, this.camera);
   };
@@ -281,6 +289,21 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
     const maxSpeed = 0.45;
 
     return minSpeed + (normalizedRpm / 3600) * maxSpeed;
+  }
+
+  private applyVibrationEffect(): void {
+    if (this.vibration <= 3.0) {
+      this.motorGroup.position.copy(this.initialMotorPosition);
+      return;
+    }
+
+    const vibrationIntensity = Math.min((this.vibration - 3.0) / 2.0, 1);
+    const amplitude = 0.015 + vibrationIntensity * 0.045;
+
+    const offsetX = Math.sin(this.elapsedTime * 80) * amplitude;
+    const offsetY = Math.cos(this.elapsedTime * 95) * amplitude * 0.6;
+
+    this.motorGroup.position.set(offsetX, offsetY, 0);
   }
 
   private handleResize = (): void => {

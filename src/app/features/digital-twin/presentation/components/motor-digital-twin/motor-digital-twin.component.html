@@ -7,6 +7,7 @@
   <app-motor-3d-viewer
     [status]="motor.twinState.status"
     [rpm]="motor.sensors.speedRpm"
+    [vibration]="motor.sensors.vibG"
   />
 
   <div class="status-strip" [ngClass]="statusClass">
