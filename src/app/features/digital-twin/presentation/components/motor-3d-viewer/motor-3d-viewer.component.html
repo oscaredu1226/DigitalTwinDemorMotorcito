@@ -1,5 +1,10 @@
-<div class="viewer-wrapper">
+<div class="viewer-wrapper" [class.warning]="status === 'Warning'" [class.critical]="status === 'Critical'">
   <div class="viewer-container" #viewerContainer></div>
+
+  <div class="alarm-banner" *ngIf="status === 'Warning' || status === 'Critical'">
+    <span class="alarm-dot"></span>
+    <strong>{{ status === 'Critical' ? 'RIESGO CRÍTICO' : 'ALERTA ACTIVA' }}</strong>
+  </div>
 
   <div class="floating-metrics">
     <div class="metric-pill" [class.warning]="temperature > 80">
