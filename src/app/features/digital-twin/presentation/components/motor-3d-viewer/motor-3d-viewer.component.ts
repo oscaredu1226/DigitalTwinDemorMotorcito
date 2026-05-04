@@ -23,6 +23,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   private readonly viewerContainer!: ElementRef<HTMLDivElement>;
 
   @Input({ required: true }) status!: MotorStatus;
+  @Input() rpm = 0;
 
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -30,6 +31,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
 
   private motorGroup = new THREE.Group();
   private fanGroup = new THREE.Group();
+  private shaftGroup = new THREE.Group();
 
   private motorMaterials: THREE.MeshStandardMaterial[] = [];
   private animationFrameId = 0;
@@ -111,6 +113,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   private createMotor(): void {
     this.motorGroup.clear();
     this.motorMaterials = [];
+    this.shaftGroup.clear();
 
     const mainMaterial = new THREE.MeshStandardMaterial({
       color: this.getStatusColor(),
@@ -153,23 +156,43 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
     rearCover.position.set(1.22, 0.25, 0);
     this.motorGroup.add(rearCover);
 
-    const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.85, 32), metalMaterial);
-
-    shaft.rotation.z = Math.PI / 2;
-    shaft.position.set(-1.78, 0.25, 0);
-    this.motorGroup.add(shaft);
-
-    const topBox = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.42, 0.75), mainMaterial);
-
-    topBox.position.set(0, 1.04, 0);
-    this.motorGroup.add(topBox);
-
+    this.createShaft(metalMaterial);
+    this.createTopBox(mainMaterial);
     this.createCoolingFins(mainMaterial);
     this.createFan(darkMaterial);
     this.createBase(darkMaterial);
 
     this.motorGroup.rotation.y = -0.35;
     this.scene.add(this.motorGroup);
+  }
+
+  private createShaft(material: THREE.MeshStandardMaterial): void {
+    const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.85, 32), material);
+
+    shaft.rotation.z = Math.PI / 2;
+
+    const shaftMark = new THREE.Mesh(
+      new THREE.BoxGeometry(0.04, 0.05, 0.36),
+      new THREE.MeshStandardMaterial({
+        color: 0xf8fafc,
+        metalness: 0.2,
+        roughness: 0.3,
+      }),
+    );
+
+    shaftMark.position.set(0, 0.16, 0);
+
+    this.shaftGroup.add(shaft);
+    this.shaftGroup.add(shaftMark);
+    this.shaftGroup.position.set(-1.78, 0.25, 0);
+    this.motorGroup.add(this.shaftGroup);
+  }
+
+  private createTopBox(material: THREE.MeshStandardMaterial): void {
+    const topBox = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.42, 0.75), material);
+
+    topBox.position.set(0, 1.04, 0);
+    this.motorGroup.add(topBox);
   }
 
   private createCoolingFins(material: THREE.MeshStandardMaterial): void {
@@ -222,15 +245,12 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   private animate = (): void => {
     this.animationFrameId = requestAnimationFrame(this.animate);
 
-    this.motorGroup.rotation.y += 0.003;
+    this.motorGroup.rotation.y += 0.002;
 
-    if (this.status === 'Warning') {
-      this.fanGroup.rotation.x += 0.22;
-    } else if (this.status === 'Critical') {
-      this.fanGroup.rotation.x += 0.08;
-    } else {
-      this.fanGroup.rotation.x += 0.14;
-    }
+    const rpmFactor = this.getRpmRotationFactor();
+
+    this.fanGroup.rotation.x += rpmFactor;
+    this.shaftGroup.rotation.x += rpmFactor;
 
     this.renderer.render(this.scene, this.camera);
   };
@@ -253,6 +273,14 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
     }
 
     return 0x2563eb;
+  }
+
+  private getRpmRotationFactor(): number {
+    const normalizedRpm = Math.max(0, Math.min(this.rpm, 3600));
+    const minSpeed = 0.02;
+    const maxSpeed = 0.45;
+
+    return minSpeed + (normalizedRpm / 3600) * maxSpeed;
   }
 
   private handleResize = (): void => {
