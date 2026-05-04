@@ -9,7 +9,7 @@ import { generateMockMotorResponse } from '../dtos/mock-motor-response';
   providedIn: 'root',
 })
 export class MotorApiService {
-  private readonly endpoint = 'https://hayfabito.free.beeceptor.com/prueba';
+  private readonly endpoint = '';
 
   constructor(private readonly http: HttpClient) {}
 

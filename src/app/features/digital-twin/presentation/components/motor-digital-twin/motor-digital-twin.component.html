@@ -1,62 +1,12 @@
 <article class="digital-twin-card" [ngClass]="statusClass">
   <div class="section-header">
-    <p>Representación virtual</p>
+    <p>Representación virtual 3D</p>
     <h2>Digital Twin del motor</h2>
   </div>
 
-  <div class="motor-scene">
-    <div class="scene-glow"></div>
-
-    <div class="motor-machine">
-      <div class="terminal-box">
-        <div class="terminal-lid"></div>
-        <div class="terminal-connectors">
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-
-      <div class="motor-main">
-        <div class="front-cover">
-          <div class="front-bolts bolt-1"></div>
-          <div class="front-bolts bolt-2"></div>
-          <div class="front-bolts bolt-3"></div>
-          <div class="front-bolts bolt-4"></div>
-          <div class="front-bolts bolt-5"></div>
-          <div class="front-bolts bolt-6"></div>
-          <div class="front-center"></div>
-          <div class="shaft"></div>
-          <div class="shaft-ring" [ngClass]="rotationClass"></div>
-        </div>
-
-        <div class="motor-body">
-          <div class="fin fin-1"></div>
-          <div class="fin fin-2"></div>
-          <div class="fin fin-3"></div>
-          <div class="fin fin-4"></div>
-          <div class="fin fin-5"></div>
-          <div class="fin fin-6"></div>
-          <div class="fin fin-7"></div>
-        </div>
-
-        <div class="rear-cover">
-          <div class="fan-guard">
-            <div class="fan-blades" [ngClass]="rotationClass"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="base-support left"></div>
-      <div class="base-support right"></div>
-      <div class="base-plate"></div>
-      <div class="base-holes">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-  </div>
+  <app-motor-3d-viewer
+    [status]="motor.twinState.status"
+  />
 
   <div class="status-strip" [ngClass]="statusClass">
     <span class="status-dot"></span>
