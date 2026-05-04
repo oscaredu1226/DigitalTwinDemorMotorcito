@@ -25,6 +25,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   @Input({ required: true }) status!: MotorStatus;
   @Input() rpm = 0;
   @Input() vibration = 0;
+  @Input() temperature = 0;
 
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -50,7 +51,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['status'] && this.motorMaterials.length > 0) {
+    if ((changes['status'] || changes['temperature']) && this.motorMaterials.length > 0) {
       this.updateMotorColor();
     }
   }
@@ -272,15 +273,19 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   }
 
   private getStatusColor(): number {
-    if (this.status === 'Critical') {
-      return 0xef4444;
+    const normalizedTemperature = Math.max(0, Math.min(this.temperature, 120)) / 120;
+
+    const coldColor = new THREE.Color(0x2563eb);
+    const warmColor = new THREE.Color(0xf59e0b);
+    const hotColor = new THREE.Color(0xef4444);
+
+    if (this.temperature <= 80) {
+      const factor = normalizedTemperature / (80 / 120);
+      return coldColor.lerp(warmColor, factor * 0.75).getHex();
     }
 
-    if (this.status === 'Warning') {
-      return 0xf59e0b;
-    }
-
-    return 0x2563eb;
+    const factor = (this.temperature - 80) / 40;
+    return warmColor.lerp(hotColor, Math.min(factor, 1)).getHex();
   }
 
   private getRpmRotationFactor(): number {
