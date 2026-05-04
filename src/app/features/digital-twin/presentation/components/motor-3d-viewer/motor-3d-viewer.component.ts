@@ -193,12 +193,12 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   }
 
   private createShaft(material: THREE.MeshStandardMaterial): void {
-    const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.85, 32), material);
+    const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.65, 32), material);
 
     shaft.rotation.z = Math.PI / 2;
 
     const shaftMark = new THREE.Mesh(
-      new THREE.BoxGeometry(0.04, 0.05, 0.36),
+      new THREE.BoxGeometry(0.04, 0.05, 0.28),
       new THREE.MeshStandardMaterial({
         color: 0xf8fafc,
         metalness: 0.2,
@@ -206,11 +206,14 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
       }),
     );
 
-    shaftMark.position.set(0, 0.16, 0);
+    shaftMark.position.set(0, 0.14, 0);
 
     this.shaftGroup.add(shaft);
     this.shaftGroup.add(shaftMark);
-    this.shaftGroup.position.set(-1.78, 0.25, 0);
+
+    // Antes estaba muy separado
+    this.shaftGroup.position.set(-1.45, 0.25, 0);
+
     this.motorGroup.add(this.shaftGroup);
   }
 
