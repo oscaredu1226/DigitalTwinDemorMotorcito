@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MotorStatus } from '../../../domain/models/motor-status.model';
 import { CommonModule } from '@angular/common';
 
@@ -32,6 +33,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
+  private controls!: OrbitControls;
 
   private motorGroup = new THREE.Group();
   private fanGroup = new THREE.Group();
@@ -74,6 +76,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
       }
     });
 
+    this.controls.dispose();
     this.renderer.dispose();
   }
 
@@ -96,6 +99,16 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(this.renderer.domElement);
+
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.08;
+    this.controls.enableZoom = true;
+    this.controls.enablePan = false;
+    this.controls.minDistance = 3.2;
+    this.controls.maxDistance = 8;
+    this.controls.target.set(0, 0.25, 0);
+    this.controls.update();
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.1);
     this.scene.add(ambientLight);
@@ -260,7 +273,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
 
     this.elapsedTime += 0.016;
 
-    this.motorGroup.rotation.y += 0.002;
+    //this.motorGroup.rotation.y += 0.002;
 
     const rpmFactor = this.getRpmRotationFactor();
 
@@ -269,6 +282,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
 
     this.applyVibrationEffect();
 
+    this.controls.update();
     this.renderer.render(this.scene, this.camera);
   };
 
