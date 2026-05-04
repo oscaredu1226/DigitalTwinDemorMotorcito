@@ -140,6 +140,12 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
       roughness: 0.25,
     });
 
+    const fanMaterial = new THREE.MeshStandardMaterial({
+      color: 0xcbd5e1,
+      metalness: 0.75,
+      roughness: 0.2,
+    });
+
     this.motorMaterials.push(mainMaterial);
 
     const body = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 2.2, 48), mainMaterial);
@@ -166,7 +172,7 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
     this.createShaft(metalMaterial);
     this.createTopBox(mainMaterial);
     this.createCoolingFins(mainMaterial);
-    this.createFan(darkMaterial);
+    this.createFan(fanMaterial);
     this.createBase(darkMaterial);
 
     this.motorGroup.rotation.y = -0.35;
