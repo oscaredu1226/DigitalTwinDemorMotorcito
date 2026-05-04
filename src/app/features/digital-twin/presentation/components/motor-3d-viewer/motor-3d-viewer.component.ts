@@ -236,17 +236,60 @@ export class Motor3dViewerComponent implements AfterViewInit, OnChanges, OnDestr
   private createFan(material: THREE.MeshStandardMaterial): void {
     this.fanGroup.clear();
 
-    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 0.08, 24), material);
+    const hubMaterial = new THREE.MeshStandardMaterial({
+      color: 0x94a3b8,
+      metalness: 0.75,
+      roughness: 0.25,
+    });
 
+    const ringMaterial = new THREE.MeshStandardMaterial({
+      color: 0x64748b,
+      metalness: 0.55,
+      roughness: 0.35,
+    });
+
+    // Disco trasero de soporte
+    const backPlate = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.42, 0.42, 0.04, 32),
+      ringMaterial,
+    );
+    backPlate.rotation.z = Math.PI / 2;
+    this.fanGroup.add(backPlate);
+
+    // Aro exterior de la turbina
+    const outerRing = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.035, 16, 48), ringMaterial);
+    outerRing.rotation.y = Math.PI / 2;
+    this.fanGroup.add(outerRing);
+
+    // Centro de la turbina
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.12, 24), hubMaterial);
     hub.rotation.z = Math.PI / 2;
     this.fanGroup.add(hub);
 
-    for (let i = 0; i < 4; i++) {
-      const blade = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.09, 0.2), material);
+    // Punta central para que se vea más "turbina"
+    const noseCone = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.14, 24), hubMaterial);
+    noseCone.rotation.z = -Math.PI / 2;
+    noseCone.position.x = 0.08;
+    this.fanGroup.add(noseCone);
 
-      blade.position.x = 0.28;
-      blade.rotation.z = (Math.PI / 2) * i;
-      this.fanGroup.add(blade);
+    // Aspas inclinadas tipo turbina
+    const bladeCount = 6;
+
+    for (let i = 0; i < bladeCount; i++) {
+      const bladePivot = new THREE.Group();
+
+      const blade = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.07, 0.025), material);
+
+      // Separación desde el centro
+      blade.position.x = 0.18;
+
+      // Inclinación para que no parezca una simple cruz
+      blade.rotation.y = THREE.MathUtils.degToRad(28);
+      blade.rotation.x = THREE.MathUtils.degToRad(10);
+
+      bladePivot.rotation.z = (Math.PI * 2 * i) / bladeCount;
+      bladePivot.add(blade);
+      this.fanGroup.add(bladePivot);
     }
 
     this.fanGroup.position.set(1.38, 0.25, 0);
